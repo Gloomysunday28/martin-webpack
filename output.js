@@ -85,13 +85,20 @@
       /******/ 	return __webpack_require__(__webpack_require__.s = "./index.js");
       /******/ })
       /************************************************************************/
-      /******/ ({
-        /***/ './index.js':
-        /*!******************!*          !*** ./index.js ***!
-          ******************/
-        /*! no static exports found */
-        /***/ (function(module, exports) {
-        
-        eval("// console.log(\"我是老骚\");\r\n\r\n// switch (true) {\r\n//   case a.length === 5:\r\n//     console.log(\"5\");\r\n//   case a.length === 6:\r\n//     console.log(\"6\");\r\n//   case a.length === 7:\r\n//     console.log(\"22222\");\r\n//     break\r\n//   case a.length === 8:\r\n//     console.log(\"8888\");\r\n//     break\r\n//   default:\r\n//     break\r\n// }\r\n\r\n// for (let i = 0; i < 2; i++) {\r\n//   console.log(i);\r\n//   for (let j = 0 ; j < 2; j++) {\r\n//     console.log(j);\r\n//     break\r\n//   }\r\n\r\nconst b = function(a) {\r\n  arguments.a = 312\r\n  console.log(a);\r\n}\r\n\r\nb({a: 1})\r\n\r\n;(function() {\r\n  console.log('1231');\r\n})()\r\n\r\n;(function() {\r\n  console.log('1231');\r\n}())\r\n\r\nconsole.log('6'.toString().padStart(2, '0'));\r\n\r\n// const a = '2019-5-1 21:58:00'\r\n// const b = '2019-5-1 20:59:00'\r\n// console.log(b > a)//# sourceURL=webpack:///./index.js?");/***/ })/******/ 
-    });
+      /******/ (
+      /************************************************************************/
+      /******/ {
+      
+      /***/ "./index.js":
+      /*!**************!*        !*** ./index.js ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./test\");\nconsole.log('test', _test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log('12321');\n/* harmony default export */ __webpack_exports__[\"default\"] = (_test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);__WEBPACK_IMPORTED_MODULE_0__[\"default\"];//# sourceURL=webpack:///./index.js?");
+      
+      /***/ })
+      }
+    );
     

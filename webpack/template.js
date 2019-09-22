@@ -1,3 +1,5 @@
+let uid = 0
+
 module.exports = {
   template(content, path) {
     return `
@@ -101,5 +103,35 @@ module.exports = {
         
         eval("${content}//# sourceURL=webpack:///${path}?");/***/ })/******/ 
     }`
+  },
+  importTemplate(content, path) {
+    return `
+      /************************************************************************/
+      /******/ {
+      
+      /***/ "${path}":
+      /*!**************!*\
+        !*** ${path} ***!
+        \**************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\\n${content}//# sourceURL=webpack:///${path}?");
+      
+      /***/ })
+      }
+    `
+  },
+  importSingleTemplate(variable, path) {
+    const uuid = uid++
+
+    return {
+      content: `/* harmony import */ var _${variable}__WEBPACK_IMPORTED_MODULE_${uuid}__ = __webpack_require__(/*! ./${variable} */ \"${path}\")`,
+      variable: `_${variable}__WEBPACK_IMPORTED_MODULE_${uuid}__[\"default\"]`
+    }
+  },
+  exportSingTemplate(variable) {
+    return `/* harmony default export */ __webpack_exports__[\"default\"] = (${variable});`
   }
 }
