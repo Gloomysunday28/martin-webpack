@@ -89,7 +89,7 @@ module.exports = {
       /******/ 	return __webpack_require__(__webpack_require__.s = "${path}");
       /******/ })
       /************************************************************************/
-      /******/ (${content});
+      /******/ ({${content}});
     `
   },
   argvTemlate(content, path) {
@@ -107,7 +107,7 @@ module.exports = {
   importTemplate(content, path) {
     return `
       /************************************************************************/
-      /******/ {
+      /******/
       
       /***/ "${path}":
       /*!**************!*\
@@ -120,7 +120,6 @@ module.exports = {
       eval("__webpack_require__.r(__webpack_exports__);\\n${content}//# sourceURL=webpack:///${path}?");
       
       /***/ })
-      }
     `
   },
   importSingleTemplate(variable, path) {

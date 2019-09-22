@@ -13,7 +13,7 @@ module.exports = {
     } = ast.expression
     
     const Identifier = expressArg.find(v => v.type === 'Identifier')
-    if (!Identifier) return
+    if (!Identifier || !modulesTree.length) return
     
     const findData = modulesTree.find(v => v.beforeVar === Identifier.name)
     if (findData) {
@@ -29,8 +29,11 @@ module.exports = {
 
     if (name) {
       const findExports = importCollection.find(v => v.beforeVar === name)
-      ast.declaration.name = findExports.afterVar
-      exportTree.afterVar = findExports.afterVar
+      
+      if (findExports) {
+        ast.declaration.name = findExports.afterVar
+        exportTree.afterVar = findExports.afterVar
+      }
     }
   },
   dealWithImport(modules, content, parseModules) {
@@ -57,9 +60,10 @@ module.exports = {
         value,
         afterVar,
       } = exportTree.default
+
       const reg = new RegExp(`export(.*)${name || value}("|')?`, 'ig')
       
-      content = content.replace(reg, exportSingTemplate(afterVar || value))
+      content = content.replace(reg, exportSingTemplate(afterVar || name || value))
     })
     
     return content

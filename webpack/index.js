@@ -20,5 +20,5 @@ if (fs.existsSync(absoltePath(config))) {
   option = require(absoltePath(config))
 }
 
-parseModule(option)
+parseModule(option, true)
   

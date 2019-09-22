@@ -25,13 +25,12 @@ const {
 const modules = {}
 
 const parseModule = {
-  parseModule(option) {
+  parseModule(option, isIndex) {
     const {
       entry
     } = option
-
+    
     const ENTRY_PATH = absoltePath(getExt(entry))
-    console.log('ENTRY_PATH', ENTRY_PATH);
     
     if (isFileExist(ENTRY_PATH)) {
       const content = fs.readFileSync(ENTRY_PATH, 'utf-8')
@@ -41,8 +40,11 @@ const parseModule = {
       })
 
       modules[entry] = {
+        path: getExt(entry),
+        originPath: entry,
         modules: [],
-        exports: []
+        exports: [],
+        ...isIndex && {isIndex}
       }
 
       traverse(ast, {
@@ -64,12 +66,14 @@ function assembleContent(content, astTree, ENTRY_PATH) {
 
   let transformTemplate = argvTemlate
 
+  let importTree = {}
+
   body.forEach(ast => {
     switch (ast.type) {
       case 'ImportDeclaration':
         const template = importSingleTemplate(ast.specifiers[0].local.name, ast.source.value)
         
-        const importTree = {
+        importTree = {
           path: ast.source.value,
           beforeVar: ast.specifiers[0].local.name,
           afterVar: template.variable,
@@ -79,13 +83,17 @@ function assembleContent(content, astTree, ENTRY_PATH) {
         transformTemplate = importTemplate
         break;
       case 'ExportDefaultDeclaration':
+        console.log(123, ast.declaration);
+        
         const exportTree = {
           name: ast.declaration.name,
-          value: ast.declaration.value
+          value: ast.declaration.extra ? ast.declaration.extra.raw : undefined
         }
         modules[ENTRY_PATH].exports.push({default: exportTree})
+        
         getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content)
         content = generate(astTree, {}, content).code
+        console.log('content', content);
         break;
       case 'ExportNamedDeclaration':
         const exported = ast.specifiers.ExportSpecifier.local.name
@@ -104,7 +112,10 @@ function assembleContent(content, astTree, ENTRY_PATH) {
   content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule)
   content = dealWithExport(modules[ENTRY_PATH].exports, content)
   
-  generateCode(content, ENTRY_PATH, transformTemplate)
+  modules[ENTRY_PATH].content = content
+  if (modules[ENTRY_PATH].isIndex) {
+    generateCode(modules, transformTemplate, modules[ENTRY_PATH].path)
+  }
 }
 
 /**
@@ -114,10 +125,12 @@ function assembleContent(content, astTree, ENTRY_PATH) {
  * @param {*} ENTRY_PATH 
  * @param {*} transformTemplate 
  */
-function generateCode(content, ENTRY_PATH, transformTemplate) {
-  const argv = transformTemplate(JSON.stringify(content).replace(/^["|'](.*)["|']$/g, '$1'), ENTRY_PATH)
+function generateCode(modules, transformTemplate, ENTRY_PATH) {
+  const content = Object.values(modules).reduce((prev, next) => {
+    return `${transformTemplate(JSON.stringify(next.content).replace(/^["|'](.*)["|']$/g, '$1'), next.originPath)},` + prev
+  }, '')
   
-  fs.writeFileSync(absoltePath('output.js'), template(argv, ENTRY_PATH))
+  fs.writeFileSync(absoltePath('output.js'), template(content,ENTRY_PATH))
 }
 
 exports.modules = modules
