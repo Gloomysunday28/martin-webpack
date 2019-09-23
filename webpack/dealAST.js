@@ -1,3 +1,4 @@
+const path = require('path')
 const {
   exportSingTemplate
 } = require('./template')
@@ -36,18 +37,20 @@ module.exports = {
       }
     }
   },
-  dealWithImport(modules, content, parseModules) {
+  dealWithImport(modules, content, parseModules, context) {
     modules.forEach(importTree => {
       const {
-        path,
+        path: entryPath,
         importContent,
         beforeVar
       } = importTree
       const reg = new RegExp(`import(.*)${beforeVar}("|')`, 'ig')
       
       content = content.replace(reg, importContent)
+      console.log(context);
       parseModules({
-        entry: path
+        entry: entryPath,
+        context: path.dirname(context)
       })
     })
     

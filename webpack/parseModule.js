@@ -27,10 +27,11 @@ const modules = {}
 const parseModule = {
   parseModule(option, isIndex) {
     const {
-      entry
+      entry,
+      context = ''
     } = option
     
-    const ENTRY_PATH = absoltePath(getExt(entry))
+    const ENTRY_PATH = absoltePath(context, getExt(entry))
     
     if (isFileExist(ENTRY_PATH)) {
       const content = fs.readFileSync(ENTRY_PATH, 'utf-8')
@@ -42,6 +43,7 @@ const parseModule = {
       modules[entry] = {
         path: getExt(entry),
         originPath: entry,
+        absoltePath: ENTRY_PATH,
         modules: [],
         exports: [],
         ...isIndex && {isIndex}
@@ -109,7 +111,7 @@ function assembleContent(content, astTree, ENTRY_PATH) {
     }
   })
 
-  content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule, modules[ENTRY_PATH].path)
+  content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule, modules[ENTRY_PATH].absoltePath)
   content = dealWithExport(modules[ENTRY_PATH].exports, content)
   
   modules[ENTRY_PATH].content = content
