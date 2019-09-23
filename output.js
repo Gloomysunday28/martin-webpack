@@ -82,35 +82,49 @@
       /******/
       /******/
       /******/ 	// Load entry module and return exports
-      /******/ 	return __webpack_require__(__webpack_require__.s = "./test.js");
+      /******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
       /******/ })
       /************************************************************************/
       /******/ ({
       /************************************************************************/
       /******/
       
-      /***/ "./test2":
-      /*!**************!*        !*** ./test2 ***!
+      /***/ "./src/test2":
+      /*!**************!*        !*** ./src/test2 ***!
         **************/
       /*! exports provided: default */
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = '23123';\nconsole.log('23132', '45241');\n\nfor (let i = 0; i < 4; i++) {\n  console.log('i', i);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (test2);;//# sourceURL=webpack:///./test2?");
+      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = '23123';\nconsole.log('23132', '45241');\n\nfor (let i = 0; i < 4; i++) {\n  console.log('i', i);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (test2);;//# sourceURL=webpack:///./src/test2?");
       
       /***/ })
     ,
       /************************************************************************/
       /******/
       
-      /***/ "./test.js":
-      /*!**************!*        !*** ./test.js ***!
+      /***/ "./src/test":
+      /*!**************!*        !*** ./src/test ***!
         **************/
       /*! exports provided: default */
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test2 */ \"./test2\");\nconst a = 1;\nconsole.log('test2', _test2__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] = (a);;//# sourceURL=webpack:///./test.js?");
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test2 */ \"./src/test2\");\nconst a = 1;\nconsole.log('test2', _test2__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] = (a);;//# sourceURL=webpack:///./src/test?");
+      
+      /***/ })
+    ,
+      /************************************************************************/
+      /******/
+      
+      /***/ "./src/index.js":
+      /*!**************!*        !*** ./src/index.js ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./src/test\");\nconsole.log('test', _test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log('12321');//# sourceURL=webpack:///./src/index.js?");
       
       /***/ })
     ,});

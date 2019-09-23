@@ -109,7 +109,7 @@ function assembleContent(content, astTree, ENTRY_PATH) {
     }
   })
 
-  content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule)
+  content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule, modules[ENTRY_PATH].path)
   content = dealWithExport(modules[ENTRY_PATH].exports, content)
   
   modules[ENTRY_PATH].content = content
