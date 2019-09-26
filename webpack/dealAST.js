@@ -30,7 +30,6 @@ module.exports = {
 
     const dedpuGetExport = function(declaration) {
       const name = declaration.name || (declaration.left && declaration.left.name) || (declaration.right && declaration.right.name)
-
       if (name) {
         const findExports = importCollection.find(v => v.beforeVar === name)
         if (findExports) {
@@ -55,7 +54,7 @@ module.exports = {
       return name
     }
 
-    return dedpuGetExport(declaration)
+    return dedpuGetExport(declaration.left)
   },
   dealWithImport(modules, content, parseModules, context) {
     modules.forEach(importTree => {
@@ -84,8 +83,10 @@ module.exports = {
         afterVar,
       } = exportTree.default
 
-      const reg = new RegExp(`export(.*?)(${name || value}.*?)("|')?`, 'ig')
-      content = content.replace(reg, exportSingTemplate(afterVar || name || value))
+      const reg = new RegExp(`export default(.*?)(${name || value}.*?)("|')?`, 'ig')
+      content = content.replace(reg, (c, b) => {
+        return exportSingTemplate(b + (afterVar || name || value))
+      })
     })
     
     return content

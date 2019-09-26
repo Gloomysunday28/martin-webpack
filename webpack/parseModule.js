@@ -89,9 +89,11 @@ function assembleContent(content, astTree, ENTRY_PATH) {
           name: [],
           value: ast.declaration.extra ? ast.declaration.extra.raw : undefined
         }
-        modules[ENTRY_PATH].exports.push({default: exportTree})
 
         exportTree.name = getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content),
+        console.log(exportTree);
+        modules[ENTRY_PATH].exports.push({default: exportTree})
+
         content = generate(astTree, {}, content).code
         break;
       case 'ExportNamedDeclaration':
