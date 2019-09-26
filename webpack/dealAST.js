@@ -27,7 +27,6 @@ module.exports = {
     const {
       declaration
     } = ast
-
     const dedpuGetExport = function(declaration) {
       const name = declaration.name || (declaration.left && declaration.left.name) || (declaration.right && declaration.right.name)
       if (name) {
@@ -48,13 +47,13 @@ module.exports = {
       }
 
       if (declaration.left && declaration.left.left) {
-        dedpuGetExport(declaration.left.left)
+        return dedpuGetExport(declaration.left)
       }
 
       return name
     }
 
-    return dedpuGetExport(declaration.left)
+    return dedpuGetExport(declaration)
   },
   dealWithImport(modules, content, parseModules, context) {
     modules.forEach(importTree => {

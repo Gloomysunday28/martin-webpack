@@ -96,7 +96,7 @@
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = '22';\nconsole.log('23132', '45241');\n\nfor (let i = 0; i < 4; i++) {\n  console.log('i', i);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ( 1 + test2) + 1;//# sourceURL=webpack:///./test2?");
+      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = 22;\nconst other = '33';\nconsole.log('23132', '45241');\n\nfor (let i = 0; i < 4; i++) {\n  console.log('i', i);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ( -321 - test2) - other;//# sourceURL=webpack:///./test2?");
       
       /***/ })
     ,
