@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./webpack/index.js"
   },
   "keywords": [],
   "author": "cjd <459953103@qq.com> (http://github.com/GloomySunday28)",

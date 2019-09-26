@@ -4,7 +4,6 @@ const {
 } = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 const generate = require('@babel/generator').default
-const types = require('@babel/types')
 const colors = require('colors')
 const { absoltePath } = require('./path')
 const { isFileExist, getExt } = require('./util')
@@ -41,7 +40,7 @@ const parseModule = {
       })
 
       modules[entry] = {
-        path: getExt(entry),
+        path: getExt(entry),  
         originPath: entry,
         absoltePath: ENTRY_PATH,
         modules: [],
@@ -81,21 +80,19 @@ function assembleContent(content, astTree, ENTRY_PATH) {
           afterVar: template.variable,
           importContent: template.content
         }
+        
         modules[ENTRY_PATH].modules.push(importTree)
         transformTemplate = importTemplate
         break;
       case 'ExportDefaultDeclaration':
-        console.log(123, ast.declaration);
-        
         const exportTree = {
-          name: ast.declaration.name,
+          name: [],
           value: ast.declaration.extra ? ast.declaration.extra.raw : undefined
         }
         modules[ENTRY_PATH].exports.push({default: exportTree})
-        
-        getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content)
+
+        exportTree.name = getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content),
         content = generate(astTree, {}, content).code
-        console.log('content', content);
         break;
       case 'ExportNamedDeclaration':
         const exported = ast.specifiers.ExportSpecifier.local.name

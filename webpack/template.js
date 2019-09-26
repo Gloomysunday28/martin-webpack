@@ -131,6 +131,7 @@ module.exports = {
     }
   },
   exportSingTemplate(variable) {
-    return `/* harmony default export */ __webpack_exports__[\"default\"] = (${variable});`
+    console.log(variable);
+    return `/* harmony default export */ __webpack_exports__[\"default\"] = (${variable})`
   }
 }

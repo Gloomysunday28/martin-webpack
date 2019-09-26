@@ -25,17 +25,37 @@ module.exports = {
   },
   getExportVariable(ast, exportTree, importCollection) {
     const {
-      name
-    } = exportTree
+      declaration
+    } = ast
 
-    if (name) {
-      const findExports = importCollection.find(v => v.beforeVar === name)
-      
-      if (findExports) {
-        ast.declaration.name = findExports.afterVar
-        exportTree.afterVar = findExports.afterVar
+    const dedpuGetExport = function(declaration) {
+      const name = declaration.name || (declaration.left && declaration.left.name) || (declaration.right && declaration.right.name)
+
+      if (name) {
+        const findExports = importCollection.find(v => v.beforeVar === name)
+        if (findExports) {
+          if (declaration.name) {
+            declaration.name = findExports.afterVar
+          }
+
+          if (declaration.left && declaration.left.name) {
+            declaration.left.name = findExports.afterVar
+          }
+          if (declaration.right && declaration.right.name) {
+            declaration.right.name = findExports.afterVar
+          }
+          exportTree.afterVar = findExports.afterVar
+        }
       }
+
+      if (declaration.left && declaration.left.left) {
+        dedpuGetExport(declaration.left.left)
+      }
+
+      return name
     }
+
+    return dedpuGetExport(declaration)
   },
   dealWithImport(modules, content, parseModules, context) {
     modules.forEach(importTree => {
@@ -47,7 +67,7 @@ module.exports = {
       const reg = new RegExp(`import(.*)${beforeVar}("|')`, 'ig')
       
       content = content.replace(reg, importContent)
-      console.log(context);
+      
       parseModules({
         entry: entryPath,
         context: path.dirname(context)
@@ -64,8 +84,7 @@ module.exports = {
         afterVar,
       } = exportTree.default
 
-      const reg = new RegExp(`export(.*)${name || value}("|')?`, 'ig')
-      
+      const reg = new RegExp(`export(.*?)(${name || value}.*?)("|')?`, 'ig')
       content = content.replace(reg, exportSingTemplate(afterVar || name || value))
     })
     
