@@ -19,8 +19,8 @@ const {
 
 let option = defaultOption
 
-if (fs.existsSync(absoltePath(config))) {
-  option = require(absoltePath(config))
+if (fs.existsSync(absoltePath(process.cwd(), config))) {
+  option = require(absoltePath(process.cwd(), config))
 }
 
 parseModule(option, true, date)

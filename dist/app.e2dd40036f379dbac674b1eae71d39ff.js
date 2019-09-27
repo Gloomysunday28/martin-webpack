@@ -86,46 +86,12 @@
       /******/ })
       /************************************************************************/
       /******/ ({
-      /************************************************************************/
-      /******/
-      
-      /***/ "./test2":
-      /*!**************!*        !*** ./test2 ***!
-        **************/
-      /*! exports provided: default */
-      /***/ (function(module, __webpack_exports__, __webpack_require__) {
-      
-      "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = 22;\nconst other = '33';\nconsole.log('23132', '45241');\n\nfor (let i = 0; i < 4; i++) {\n  console.log('i', i);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ( -321 - test2) - other;//# sourceURL=webpack:///./test2?");
-      
-      /***/ })
-    ,
-      /************************************************************************/
-      /******/
-      
-      /***/ "./test":
-      /*!**************!*        !*** ./test ***!
-        **************/
-      /*! exports provided: default */
-      /***/ (function(module, __webpack_exports__, __webpack_require__) {
-      
-      "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test2 */ \"./test2\");\nconst a = 1;\nconsole.log('test2', _test2__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);//# sourceURL=webpack:///./test?");
-      
-      /***/ })
-    ,
-      /************************************************************************/
-      /******/
-      
-      /***/ "./src/index.js":
-      /*!**************!*        !*** ./src/index.js ***!
-        **************/
-      /*! exports provided: default */
-      /***/ (function(module, __webpack_exports__, __webpack_require__) {
-      
-      "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./test\");\nconsole.log('test', _test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log('123213');//# sourceURL=webpack:///./src/index.js?");
-      
-      /***/ })
+        /***/ './src/index.js':
+        /*!******************!*          !*** ./src/index.js ***!
+          ******************/
+        /*! no static exports found */
+        /***/ (function(module, exports) {
+        
+        eval("console.log('123213');\r\n//# sourceURL=webpack:///./src/index.js?");/***/ })/******/ 
     ,});
     

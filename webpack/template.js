@@ -93,7 +93,7 @@ module.exports = {
     `
   },
   argvTemlate(content, path) {
-    return `{
+    return `
         /***/ '${path}':
         /*!******************!*\
           !*** ${path} ***!
@@ -102,7 +102,7 @@ module.exports = {
         /***/ (function(module, exports) {
         
         eval("${content}//# sourceURL=webpack:///${path}?");/***/ })/******/ 
-    }`
+    `
   },
   importTemplate(content, path) {
     return `

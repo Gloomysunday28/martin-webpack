@@ -1,14 +1,14 @@
 {
   "name": "@kvinc/acorn-webpack",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.3",
+  "description": "模仿webpack制定的打包工具",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./webpack/index.js"
   },
   "bin": {
-    "mwebpack": "index.js"
+    "mwebpack": "webpack/index.js"
   },
   "keywords": [],
   "author": "cjd <459953103@qq.com> (http://github.com/GloomySunday28)",

@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const {
   parse
 } = require('@babel/parser')
@@ -40,15 +41,13 @@ const parseModule = {
         entry = entry[i]
       }
     }
-    
     if (!config.output && isIndex) {
       Object.assign(config, {...option})
     }
 
     date && (oldDate = date)
     
-    const ENTRY_PATH = absoltePath(context, getExt(entry))
-    
+    const ENTRY_PATH = absoltePath(getExt(entry))
     if (isFileExist(ENTRY_PATH)) {
       const content = fs.readFileSync(ENTRY_PATH, 'utf-8')
       
@@ -158,9 +157,8 @@ function generateCode(modules, transformTemplate, ENTRY_PATH) {
   const {
     output = {}
   } = config
-  
   const filename = dealFileName(config, output.fileName, modules)
-  const filePath = output.path || ''
+  const filePath = output.path || path.join(process.cwd(), './dist')
 
   dealPath(filePath, () => {
     dealPlugins(config.plugins, entryModule)
