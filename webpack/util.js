@@ -12,19 +12,16 @@ module.exports = {
   getExt(file) {
     return file + (path.extname(file) ? '' : '.js')
   },
-  dealFileName(config, filename = '', modules) {
+  dealFileName(config, filename = '', entryModule) {
     const {
       entry,
-      output
+      output = {}
     } = config
 
-    const {
-      path = ''
-    } = output
-    
     let originEntry = entry
     let targetName = ''
-    if (filename.includes('[name]')) {
+
+    if (!output.fileName || (output.fileName || '').includes('[name]')) {
       switch (Object.prototype.toString.call(entry)) {
         case '[object String]':
            targetName += 'main'
@@ -41,13 +38,13 @@ module.exports = {
           }
           break
         default:
+          targetName = filename
           break
       }
     } else {
-      targetName = filename
+      targetName = output.fileName
     }
-
-    const entryModule = modules[originEntry]
+    console.log('targetName', targetName);
 
     if (filename.includes('[hash]')) {
       const file = fs.readFileSync(absoltePath(originEntry), 'utf-8').toString()
@@ -56,8 +53,9 @@ module.exports = {
       targetName += ('.' + hash.digest('hex'))
     }
 
-    entryModule.parseFileName = targetName + '.js'
-    return targetName + '.js'
+    entryModule.parseFileName = targetName + (targetName.includes('.js') ? '' : '.js')
+    console.log(333, entryModule.parseFileName);
+    return entryModule.parseFileName
   },
   dealPath(filePath, cb) {
     rimraf(filePath, (err) => {

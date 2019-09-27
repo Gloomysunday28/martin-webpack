@@ -1,1 +1,4 @@
-console.log('123213');
+import test from './test'
+
+console.log(test);
+console.log(321)

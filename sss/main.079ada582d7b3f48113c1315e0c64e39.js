@@ -86,12 +86,46 @@
       /******/ })
       /************************************************************************/
       /******/ ({
-        /***/ './src/index.js':
-        /*!******************!*          !*** ./src/index.js ***!
-          ******************/
-        /*! no static exports found */
-        /***/ (function(module, exports) {
-        
-        eval("console.log('123213');\r\n//# sourceURL=webpack:///./src/index.js?");/***/ })/******/ 
+      /************************************************************************/
+      /******/
+      
+      /***/ "./test2":
+      /*!**************!*        !*** ./test2 ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = 3213;\n/* harmony default export */ __webpack_exports__[\"default\"] = ( 231 + test2) + 222;//# sourceURL=webpack:///./test2?");
+      
+      /***/ })
+    ,
+      /************************************************************************/
+      /******/
+      
+      /***/ "./test":
+      /*!**************!*        !*** ./test ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test2 */ \"./test2\");\nconsole.log(_test2__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] = ( 42141);//# sourceURL=webpack:///./test?");
+      
+      /***/ })
+    ,
+      /************************************************************************/
+      /******/
+      
+      /***/ "./src/index.js":
+      /*!**************!*        !*** ./src/index.js ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./test\");\nconsole.log(_test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log(321);//# sourceURL=webpack:///./src/index.js?");
+      
+      /***/ })
     ,});
     

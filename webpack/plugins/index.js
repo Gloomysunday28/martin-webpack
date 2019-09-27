@@ -1,5 +1,9 @@
-module.exports = function dealPlugins(plugins = [], modules) {
-    plugins.forEach(plugin => {
-      plugin.init(modules)
-    })
+module.exports = function dealPlugins(config = {}, modules) {
+  const {
+    plugins = []
+  } = config
+
+  plugins.forEach(plugin => {
+    plugin.init(modules, config)
+  })
 }

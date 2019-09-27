@@ -40,14 +40,17 @@ const parseModule = {
       for (let i in entrys) {
         entry = entry[i]
       }
+    } else if (Array.isArray(entrys)) {
+      entry = entrys[0]
     }
+
     if (!config.output && isIndex) {
       Object.assign(config, {...option})
     }
 
     date && (oldDate = date)
-    
-    const ENTRY_PATH = absoltePath(getExt(entry))
+
+    const ENTRY_PATH = absoltePath(context, getExt(entry))
     if (isFileExist(ENTRY_PATH)) {
       const content = fs.readFileSync(ENTRY_PATH, 'utf-8')
       
@@ -157,11 +160,11 @@ function generateCode(modules, transformTemplate, ENTRY_PATH) {
   const {
     output = {}
   } = config
-  const filename = dealFileName(config, output.fileName, modules)
+  const filename = dealFileName(config, output.fileName, entryModule)
   const filePath = output.path || path.join(process.cwd(), './dist')
 
   dealPath(filePath, () => {
-    dealPlugins(config.plugins, entryModule)
+    dealPlugins(config, entryModule)
     fs.writeFile(absoltePath(filePath, filename), template(content,ENTRY_PATH), 'utf-8', (err) => {
       if (err) return console.log(colors.red(err))
       const newDate = +new Date()
