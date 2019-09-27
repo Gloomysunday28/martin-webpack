@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const date = +new Date()
 const fs = require('fs')
 const commander = require('commander')
