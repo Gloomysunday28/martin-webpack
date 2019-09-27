@@ -6,7 +6,8 @@ const traverse = require('@babel/traverse').default
 const generate = require('@babel/generator').default
 const colors = require('colors')
 const { absoltePath } = require('./path')
-const { isFileExist, getExt } = require('./util')
+const dealPlugins = require('./plugins')
+const { isFileExist, getExt, dealFileName, dealPath } = require('./util')
 const {
   template,
   argvTemlate,
@@ -22,13 +23,26 @@ const {
 } = require('./dealAST')
 
 const modules = {}
+const config = {}
 
 const parseModule = {
   parseModule(option, isIndex) {
     const {
-      entry,
-      context = ''
+      entry: entrys,
+      context = '',
     } = option
+
+    let entry = entrys
+
+    if (Object.prototype.toString.call(entrys) === '[object Object]') {
+      for (let i in entrys) {
+        entry = entry[i]
+      }
+    }
+    
+    if (!config.output && isIndex) {
+      Object.assign(config, {...option})
+    }
     
     const ENTRY_PATH = absoltePath(context, getExt(entry))
     
@@ -91,7 +105,6 @@ function assembleContent(content, astTree, ENTRY_PATH) {
         }
 
         exportTree.name = getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content),
-        console.log(exportTree);
         modules[ENTRY_PATH].exports.push({default: exportTree})
 
         content = generate(astTree, {}, content).code
@@ -131,7 +144,17 @@ function generateCode(modules, transformTemplate, ENTRY_PATH) {
     return `${transformTemplate(JSON.stringify(next.content).replace(/^["|'](.*)["|']$/g, '$1'), next.originPath)},` + prev
   }, '')
   
-  fs.writeFileSync(absoltePath('output.js'), template(content,ENTRY_PATH))
+  const {
+    output = {}
+  } = config
+  
+  const filename = dealFileName(config.entry, output.fileName)
+  const filePath = output.path || ''
+
+  dealPath(filePath, () => {
+    dealPlugins(config.plugins)
+    fs.writeFileSync(absoltePath(filePath, filename), template(content,ENTRY_PATH))
+  })
 }
 
 exports.modules = modules
