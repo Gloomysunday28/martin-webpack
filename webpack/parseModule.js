@@ -146,16 +146,24 @@ function generateCode(modules, transformTemplate, ENTRY_PATH) {
   const content = Object.values(modules).reduce((prev, next) => {
     return `${transformTemplate(JSON.stringify(next.content).replace(/^["|'](.*)["|']$/g, '$1'), next.originPath)},` + prev
   }, '')
+
+  let entryModule
+
+  for (let ms in modules) {
+    if (modules[ms].isIndex) {
+      entryModule = modules[ms]
+    }
+  }
   
   const {
     output = {}
   } = config
   
-  const filename = dealFileName(config.entry, output.fileName)
+  const filename = dealFileName(config, output.fileName, modules)
   const filePath = output.path || ''
 
   dealPath(filePath, () => {
-    dealPlugins(config.plugins, config)
+    dealPlugins(config.plugins, entryModule)
     fs.writeFile(absoltePath(filePath, filename), template(content,ENTRY_PATH), 'utf-8', (err) => {
       if (err) return console.log(colors.red(err))
       const newDate = +new Date()

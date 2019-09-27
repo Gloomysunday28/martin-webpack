@@ -1,7 +1,9 @@
+const crypto = require('crypto')
 const path = require('path')
 const fs = require('fs')
 const colors = require('colors')
 const rimraf = require('rimraf')
+const { absoltePath } = require('./path')
 
 module.exports = {
   isFileExist(path) {
@@ -10,23 +12,52 @@ module.exports = {
   getExt(file) {
     return file + (path.extname(file) ? '' : '.js')
   },
-  dealFileName(entry, filename = '') {
-    if (filename.includes('[')) {
+  dealFileName(config, filename = '', modules) {
+    const {
+      entry,
+      output
+    } = config
+
+    const {
+      path = ''
+    } = output
+    
+    let originEntry = entry
+    let targetName = ''
+    if (filename.includes('[name]')) {
       switch (Object.prototype.toString.call(entry)) {
         case '[object String]':
-          return 'main.js'
+           targetName += 'main'
+           break
         case '[object Array]':
-          return 'main.js'
+           originEntry = entry[0]
+           targetName += 'main'
+           break
         case '[object Object]':
           for (let key in entry) {
-            return `${key}.js`
+             targetName += `${key}`
+             originEntry = entry[key]
+             break
           }
+          break
         default:
-          return
+          break
       }
     } else {
-      return filename
+      targetName = filename
     }
+
+    const entryModule = modules[originEntry]
+
+    if (filename.includes('[hash]')) {
+      const file = fs.readFileSync(absoltePath(originEntry), 'utf-8').toString()
+      const hash = crypto.createHash('md5');
+      hash.update(file)
+      targetName += ('.' + hash.digest('hex'))
+    }
+
+    entryModule.parseFileName = targetName + '.js'
+    return targetName + '.js'
   },
   dealPath(filePath, cb) {
     rimraf(filePath, (err) => {

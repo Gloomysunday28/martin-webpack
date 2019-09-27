@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    fileName: '[name].js'
+    fileName: '[name].[hash].js'
   },
   plugins: [
     new HTMLWebpackPlugin()

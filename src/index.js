@@ -1,4 +1,4 @@
 import test from './test'
 
 console.log('test', test);
-console.log('12321');
+console.log('123213');
