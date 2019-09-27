@@ -20,7 +20,6 @@ HTMLWebpackPlugin.prototype = {
   init() {
     const readFileString = fs.readFileSync(this.template, {encoding: 'utf8'}).toString()
     fs.writeFile(this.targetHTML, readFileString, 'utf-8' ,err => {
-      console.log(err);
     })
   }
 }

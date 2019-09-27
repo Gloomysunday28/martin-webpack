@@ -1,5 +1,5 @@
-module.exports = function dealPlugins(plugins = []) {
+module.exports = function dealPlugins(plugins = [], config) {
     plugins.forEach(plugin => {
-      plugin.init()
+      plugin.init(config)
     })
 }

@@ -24,9 +24,10 @@ const {
 
 const modules = {}
 const config = {}
+let oldDate = 0
 
 const parseModule = {
-  parseModule(option, isIndex) {
+  parseModule(option, isIndex, date) {
     const {
       entry: entrys,
       context = '',
@@ -43,6 +44,8 @@ const parseModule = {
     if (!config.output && isIndex) {
       Object.assign(config, {...option})
     }
+
+    date && (oldDate = date)
     
     const ENTRY_PATH = absoltePath(context, getExt(entry))
     
@@ -152,8 +155,12 @@ function generateCode(modules, transformTemplate, ENTRY_PATH) {
   const filePath = output.path || ''
 
   dealPath(filePath, () => {
-    dealPlugins(config.plugins)
-    fs.writeFileSync(absoltePath(filePath, filename), template(content,ENTRY_PATH))
+    dealPlugins(config.plugins, config)
+    fs.writeFile(absoltePath(filePath, filename), template(content,ENTRY_PATH), 'utf-8', (err) => {
+      if (err) return console.log(colors.red(err))
+      const newDate = +new Date()
+      console.log(colors.green(`Build Complete in ${(newDate - oldDate) / 1000}s`))
+    })
   })
 }
 

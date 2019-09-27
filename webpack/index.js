@@ -1,3 +1,4 @@
+const date = +new Date()
 const fs = require('fs')
 const commander = require('commander')
 const defaultOption = require('./defaultOption')
@@ -20,5 +21,5 @@ if (fs.existsSync(absoltePath(config))) {
   option = require(absoltePath(config))
 }
 
-parseModule(option, true)
+parseModule(option, true, date)
   

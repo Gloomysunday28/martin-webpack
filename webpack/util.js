@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const colors = require('colors')
 const rimraf = require('rimraf')
 
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
   dealPath(filePath, cb) {
     rimraf(filePath, (err) => {
       if (!err) {
+        console.log(colors.green(`${filePath} is clear`))
         fs.mkdir(filePath, {
           recursive: false
         }, () => {
