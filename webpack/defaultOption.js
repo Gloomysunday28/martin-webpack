@@ -1,4 +1,3 @@
-const path = require('path')
 const HTMLWebpackPlugin = require('./plugins/html-webpack-plugin')
 
 module.exports = {

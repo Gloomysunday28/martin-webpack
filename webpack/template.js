@@ -124,13 +124,13 @@ module.exports = {
   },
   importSingleTemplate(variable, path) {
     const uuid = uid++
-
+    
     return {
       content: `/* harmony import */ var _${variable}__WEBPACK_IMPORTED_MODULE_${uuid}__ = __webpack_require__(/*! ./${variable} */ \"${path}\")`,
       variable: `_${variable}__WEBPACK_IMPORTED_MODULE_${uuid}__[\"default\"]`
     }
   },
-  exportSingTemplate(variable) {
-    return `/* harmony default export */ __webpack_exports__[\"default\"] = (${variable})`
+  exportSingTemplate() {
+    return `/* harmony default export */ __webpack_exports__[\"default\"] = `
   }
 }

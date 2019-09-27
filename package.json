@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node ./webpack/index.js"
+    "build": "node ./webpack/index.js",
+    "build:config": "node ./webpack/index.js --config config.js"
   },
   "bin": {
     "mwebpack": "webpack/index.js"

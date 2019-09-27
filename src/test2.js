@@ -1,3 +1,5 @@
-const test2 = 3213
+import exportsDefault from './exportsDefault/index'
 
-export default 231 + test2 + 222
+const test = '321'
+console.log(test);
+export default 222 + exportsDefault + 321

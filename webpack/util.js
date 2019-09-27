@@ -44,7 +44,6 @@ module.exports = {
     } else {
       targetName = output.fileName
     }
-    console.log('targetName', targetName);
 
     if (filename.includes('[hash]')) {
       const file = fs.readFileSync(absoltePath(originEntry), 'utf-8').toString()
@@ -54,7 +53,6 @@ module.exports = {
     }
 
     entryModule.parseFileName = targetName + (targetName.includes('.js') ? '' : '.js')
-    console.log(333, entryModule.parseFileName);
     return entryModule.parseFileName
   },
   dealPath(filePath, cb) {

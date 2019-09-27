@@ -50,7 +50,7 @@ module.exports = {
         return dedpuGetExport(declaration.left)
       }
 
-      return name
+      return name + ''
     }
 
     return dedpuGetExport(declaration)
@@ -60,10 +60,8 @@ module.exports = {
       const {
         path: entryPath,
         importContent,
-        beforeVar
       } = importTree
-      const reg = new RegExp(`import(.*)${beforeVar}("|')`, 'ig')
-      
+      const reg = /import(.*)?("|')?/gm
       content = content.replace(reg, importContent)
       
       parseModules({
@@ -82,7 +80,7 @@ module.exports = {
         afterVar,
       } = exportTree.default
 
-      const reg = new RegExp(`export default(.*?)(${name || value}.*?)("|')?`, 'ig')
+      const reg = new RegExp(`export default`, 'ig')
       content = content.replace(reg, (c, b) => {
         return exportSingTemplate(b + (afterVar || name || value))
       })

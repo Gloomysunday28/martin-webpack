@@ -89,6 +89,20 @@
       /************************************************************************/
       /******/
       
+      /***/ "./exportsDefault/index":
+      /*!**************!*        !*** ./exportsDefault/index ***!
+        **************/
+      /*! exports provided: default */
+      /***/ (function(module, __webpack_exports__, __webpack_require__) {
+      
+      "use strict";
+      eval("__webpack_require__.r(__webpack_exports__);\nconst exportDefault = 'lalal';\n/* harmony default export */ __webpack_exports__[\"default\"] =  exportDefault;//# sourceURL=webpack:///./exportsDefault/index?");
+      
+      /***/ })
+    ,
+      /************************************************************************/
+      /******/
+      
       /***/ "./test2":
       /*!**************!*        !*** ./test2 ***!
         **************/
@@ -96,7 +110,7 @@
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\nconst test2 = 3213;\n/* harmony default export */ __webpack_exports__[\"default\"] = ( 231 + test2) + 222;//# sourceURL=webpack:///./test2?");
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _exportsDefault__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./exportsDefault */ \"./exportsDefault/index\")\nconst test = '321';\nconsole.log(test);\n/* harmony default export */ __webpack_exports__[\"default\"] =  222 + _exportsDefault__WEBPACK_IMPORTED_MODULE_2__[\"default\"] + 321;//# sourceURL=webpack:///./test2?");
       
       /***/ })
     ,
@@ -110,7 +124,7 @@
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test2 */ \"./test2\");\nconsole.log(_test2__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] = ( 42141);//# sourceURL=webpack:///./test?");
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test2 */ \"./test2\")\nconsole.log(_test2__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n/* harmony default export */ __webpack_exports__[\"default\"] =  42141;//# sourceURL=webpack:///./test?");
       
       /***/ })
     ,
@@ -124,7 +138,7 @@
       /***/ (function(module, __webpack_exports__, __webpack_require__) {
       
       "use strict";
-      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./test\");\nconsole.log(_test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log(321);//# sourceURL=webpack:///./src/index.js?");
+      eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./test\")\nconsole.log(_test__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\nconsole.log(321);//# sourceURL=webpack:///./src/index.js?");
       
       /***/ })
     ,});
