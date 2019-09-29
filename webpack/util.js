@@ -51,7 +51,6 @@ module.exports = {
       hash.update(file)
       targetName += ('.' + hash.digest('hex'))
     }
-
     entryModule.parseFileName = targetName + (targetName.includes('.js') ? '' : '.js')
     return entryModule.parseFileName
   },
@@ -66,5 +65,8 @@ module.exports = {
         })
       }
     })
+  },
+  warn(msg) {
+    console.log(colors.red(`[Mwebpack Warn]: ${msg}`))
   }
 }

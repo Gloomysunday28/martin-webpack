@@ -63,10 +63,17 @@ module.exports = {
       } = importTree
       const reg = /import(.*)?("|')?/gm
       content = content.replace(reg, importContent)
-      
+
+      // console.log('entryPath', entryPath);
       parseModules({
         entry: entryPath,
-        context: path.dirname(context)
+        context: path.dirname(context),
+        module: {
+          rules: [{
+            test: /\.js$/,
+            loader: 'babel-loader'
+          }]
+        }
       })
     })
     

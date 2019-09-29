@@ -1,27 +1,13 @@
+const co = require('co')
 const fs = require('fs')
 const path = require('path')
-const {
-  parse
-} = require('@babel/parser')
-const traverse = require('@babel/traverse').default
-const generate = require('@babel/generator').default
 const colors = require('colors')
 const { absoltePath } = require('./path')
 const dealPlugins = require('./plugins')
-const { isFileExist, getExt, dealFileName, dealPath } = require('./util')
+const { isFileExist, getExt, dealFileName, dealPath, warn } = require('./util')
 const {
   template,
-  argvTemlate,
-  importTemplate,
-  importSingleTemplate,
 } = require('./template')
-
-const {
-  dealExpression,
-  dealWithImport,
-  dealWithExport,
-  getExportVariable
-} = require('./dealAST')
 
 const modules = {}
 const config = {}
@@ -31,7 +17,9 @@ const parseModule = {
   parseModule(option, isIndex, date) {
     const {
       entry: entrys,
-      context = '',
+      context = isIndex ? process.cwd() : '',
+      module: mModule = {},
+      resolveLoaders = 'node_modules'
     } = option
 
     let entry = entrys
@@ -44,97 +32,59 @@ const parseModule = {
       entry = entrys[0]
     }
 
-    if (!config.output && isIndex) {
-      Object.assign(config, {...option})
+    if (isIndex) {
+      modules[getExt(entry)] = {}
+      if (isIndex) {
+        Object.assign(config, {...option, ...{resolveLoaders}})
+      }
+    }
+
+    const ENTRY_PATH = absoltePath(context, getExt(entry))
+
+    if (!isFileExist(ENTRY_PATH)) return warn(`${ENTRY_PATH} is no Exist`)
+
+    // console.log(entry);
+    modules[getExt(config.entry)][entry] = {
+      path: getExt(entry),  
+      originPath: entry,
+      absoltePath: ENTRY_PATH,
+      modules: [],
+      exports: [],
+      ...isIndex && {isIndex}
     }
 
     date && (oldDate = date)
-
-    const ENTRY_PATH = absoltePath(context, getExt(entry))
-    if (isFileExist(ENTRY_PATH)) {
-      const content = fs.readFileSync(ENTRY_PATH, 'utf-8')
-      
-      const ast = parse(content, {
-        sourceType: 'module'
-      })
-
-      modules[entry] = {
-        path: getExt(entry),  
-        originPath: entry,
-        absoltePath: ENTRY_PATH,
-        modules: [],
-        exports: [],
-        ...isIndex && {isIndex}
-      }
-
-      traverse(ast, {
-        Program(path) {
-          assembleContent(content, path.node, entry)
+    if (mModule.rules && Array.isArray(mModule.rules)) {
+      for (let rule of mModule.rules) {
+        if (!rule.test) {
+          warn('test attribute is empty, please check your config again!')
+          return
         }
-      })
-      
-    } else {
-      console.log(colors.red(`${ENTRY_PATH} is no Exist`))
+        if (rule.test.exec(getExt(entry))) {
+          const loaderPath = getExt(path.join(process.cwd(), config.resolveLoaders, rule.loader))
+          if (!fs.existsSync(loaderPath)) return warn(`${loaderPath} is not exist!`)
+          const loader = require(loaderPath)
+          // loader配置集成
+          const loaderConfig = {
+            isIndex,
+            ENTRY_PATH,
+            parseModule,
+            entryModule: modules[getExt(config.entry)][entry] ,
+            loaderEntry: getExt(entry),
+            preTransformEntry: entry,
+            modules
+          }
+
+          if (!typeof loader === 'function') return warn(`${loaderPath} export is not a function`)
+          loader(loaderConfig)
+        }
+      }
+    }
+
+    if (isIndex) {
+      generateCode(modules, modules[getExt(config.entry)], getExt(config.entry))
     }
   },
-}
-
-function assembleContent(content, astTree, ENTRY_PATH) {
-  const {
-    body = []
-  } = astTree
-
-  let transformTemplate = argvTemlate
-
-  let importTree = {}
-
-  body.forEach(ast => {
-    switch (ast.type) {
-      case 'ImportDeclaration':
-        const template = importSingleTemplate(ast.specifiers[0].local.name, ast.source.value)
-        
-        importTree = {
-          path: ast.source.value,
-          beforeVar: ast.specifiers[0].local.name,
-          afterVar: template.variable,
-          importContent: template.content
-        }
-        
-        modules[ENTRY_PATH].modules.push(importTree)
-        transformTemplate = importTemplate
-        break;
-      case 'ExportDefaultDeclaration':
-        const exportTree = {
-          name: [],
-          value: ast.declaration.extra ? ast.declaration.extra.raw : undefined
-        }
-
-        exportTree.name = getExportVariable(ast, exportTree, modules[ENTRY_PATH].modules, content),
-        modules[ENTRY_PATH].exports.push({default: exportTree})
-
-        content = generate(astTree, {}, content).code
-        break;
-      case 'ExportNamedDeclaration':
-        const exported = ast.specifiers.ExportSpecifier.local.name
-        modules[ENTRY_PATH].exports.push({[exported]: exported})
-        break;
-      case 'ExpressionStatement':
-        if (dealExpression(ast, modules[ENTRY_PATH].modules, content)) {
-          content = generate(astTree, {}, content).code
-        }
-        break;
-      default:
-        break
-    }
-  })
-
-  content = dealWithImport(modules[ENTRY_PATH].modules, content, parseModule.parseModule, modules[ENTRY_PATH].absoltePath)
-  content = dealWithExport(modules[ENTRY_PATH].exports, content)
-  
-  modules[ENTRY_PATH].content = content
-  if (modules[ENTRY_PATH].isIndex) {
-    generateCode(modules, transformTemplate, modules[ENTRY_PATH].path)
-  }
 }
 
 /**
@@ -142,30 +92,25 @@ function assembleContent(content, astTree, ENTRY_PATH) {
  * @param {*} astTree 
  * @param {*} content 
  * @param {*} ENTRY_PATH 
- * @param {*} transformTemplate 
  */
-function generateCode(modules, transformTemplate, ENTRY_PATH) {
-  const content = Object.values(modules).reduce((prev, next) => {
-    return `${transformTemplate(JSON.stringify(next.content).replace(/^["|'](.*)["|']$/g, '$1'), next.originPath)},` + prev
-  }, '')
-
+function generateCode(modules, entryModules, ENTRY_PATH) {
   let entryModule
 
-  for (let ms in modules) {
-    if (modules[ms].isIndex) {
-      entryModule = modules[ms]
+  for (let ms in entryModules) {
+    if (entryModules[ms].isIndex) {
+      entryModule = entryModules[ms]
     }
   }
-  
+
   const {
     output = {}
   } = config
   const filename = dealFileName(config, output.fileName, entryModule)
   const filePath = output.path || path.join(process.cwd(), './dist')
-
+  
   dealPath(filePath, () => {
     dealPlugins(config, entryModule)
-    fs.writeFile(absoltePath(filePath, filename), template(content,ENTRY_PATH), 'utf-8', (err) => {
+    fs.writeFile(absoltePath(filePath, filename), template(modules[ENTRY_PATH].content,ENTRY_PATH), 'utf-8', (err) => {
       if (err) return console.log(colors.red(err))
       const newDate = +new Date()
       console.log(colors.green(`Build Complete in ${(newDate - oldDate) / 1000}s`))
