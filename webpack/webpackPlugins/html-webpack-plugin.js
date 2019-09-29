@@ -29,5 +29,10 @@ HTMLWebpackPlugin.prototype = {
   }
 }
 
+exports.install = {
+  install(MWebpack) {
+    MWebpack.prototype.HTMLWebpackPlugin = HTMLWebpackPlugin
+  }
+}
 
 module.exports = HTMLWebpackPlugin

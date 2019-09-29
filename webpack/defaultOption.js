@@ -1,4 +1,4 @@
-const HTMLWebpackPlugin = require('./plugins/html-webpack-plugin')
+const HTMLWebpackPlugin = require('./webpackPlugins/html-webpack-plugin')
 const ShowBuildTime = require('./webpackPlugins/showBuildTime')
 
 module.exports = {
