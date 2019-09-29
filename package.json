@@ -1,6 +1,6 @@
 {
   "name": "@kvinc/acorn-webpack",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "模仿webpack制定的打包工具",
   "main": "index.js",
   "scripts": {

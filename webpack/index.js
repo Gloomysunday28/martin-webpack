@@ -54,8 +54,8 @@ MWebpack.prototype = {
       this.finalBoolean = [parseModule(option, true)]
     }
 
-    this.generateCode()
     this.installPlugins()
+    this.generateCode()
   },
   generateCode() {
     if (this.finalBoolean.every(Boolean)) {
@@ -63,11 +63,11 @@ MWebpack.prototype = {
     }
   },
   installPlugins(context = './webpackPlugins') {
-    fs.readdir(absoltePath(__dirname, context), 'utf-8', (err, files) => {
-      files.forEach(file => {
-        const plugin = require(absoltePath(__dirname, context, file))
-        install(plugin.install)
-      })
+    const files = fs.readdirSync(absoltePath(__dirname, context), 'utf-8')
+
+    files.forEach(file => {
+      const plugin = require(absoltePath(__dirname, context, file))
+      install(plugin.install)
     })
   }
 }

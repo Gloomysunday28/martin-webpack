@@ -16,9 +16,9 @@ ProgressPlugin.prototype = {
   }
 }
 
-exports.install = {
+ProgressPlugin.install = {
   install(MWebpack) {
-    MWebpack.prototype.ShowBuildTime = ShowBuildTime
+    MWebpack.prototype.ProgressPlugin = ProgressPlugin
   }
 }
 

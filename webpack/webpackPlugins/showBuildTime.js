@@ -16,7 +16,7 @@ ShowBuildTime.prototype = {
   },
 }
 
-exports.install = {
+ShowBuildTime.install = {
   install(MWebpack) {
     MWebpack.prototype.ShowBuildTime = ShowBuildTime
   }

@@ -1,5 +1,6 @@
-const HTMLWebpackPlugin = require('./webpackPlugins/html-webpack-plugin')
-const ShowBuildTime = require('./webpackPlugins/showBuildTime')
+// const HTMLWebpackPlugin = require('./webpackPlugins/html-webpack-plugin')
+// const ShowBuildTime = require('./webpackPlugins/showBuildTime')
+const ProgressBar = require('./plugins/html')
 
 module.exports = {
   entry: {
@@ -17,7 +18,8 @@ module.exports = {
     }]
   },
   plugins: [
-    new HTMLWebpackPlugin(),
-    new ShowBuildTime()
+    // new HTMLWebpackPlugin(),
+    // new ShowBuildTime()
+    new ProgressBar()
   ]
 }
