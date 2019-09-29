@@ -13,7 +13,7 @@ module.exports = {
     // console.log(file);
     return file + (path.extname(file) ? '' : '.js')
   },
-  dealFileName(config, filename = '', entryModule) {
+  dealFileName(config, filename = '', entryModule, modePath) {
     const {
       entry,
       output = {}
@@ -28,14 +28,17 @@ module.exports = {
            targetName += 'main'
            break
         case '[object Array]':
-           originEntry = entry[0]
+           const index = entry.findIndex(v => v === modePath)
+           originEntry = entry[index]
            targetName += 'main'
            break
         case '[object Object]':
           for (let key in entry) {
-             targetName += `${key}`
-             originEntry = entry[key]
-             break
+            if (entry[key] === modePath) {
+              targetName += `${key}`
+              originEntry = entry[key]
+              break
+            }
           }
           break
         default:

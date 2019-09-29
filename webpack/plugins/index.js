@@ -1,4 +1,4 @@
-module.exports = function dealPlugins(config = {}, modules) {
+module.exports = function dealPlugins(modules, config = {}) {
   const {
     plugins = []
   } = config

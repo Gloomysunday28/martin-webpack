@@ -4,8 +4,10 @@ const date = +new Date()
 const fs = require('fs')
 const commander = require('commander')
 const defaultOption = require('./defaultOption')
-const { parseModule } = require('./parseModule')
+const { parseModule, modules } = require('./parseModule')
 const { absoltePath } = require('./path')
+
+const generateCode = require('./generateCode')
 
 commander
   .version('0.0.1')
@@ -23,5 +25,24 @@ if (fs.existsSync(absoltePath(process.cwd(), config))) {
   option = require(absoltePath(process.cwd(), config))
 }
 
-parseModule(option, true, date)
-  
+const {
+  entry
+} = option
+
+if (Array.isArray(entry)) {
+  entry.forEach(e => {
+    parseModule({
+      ...option,
+      entry: e
+    }, true, date)
+  })
+} else if (Object.prototype.toString.call(entry) === '[object Object]') {
+  Object.values(entry).forEach(e => parseModule({
+    ...option,
+    entry: e
+  }, true, date))
+} else {
+  parseModule(option, true, date)
+}
+
+generateCode(modules, option)

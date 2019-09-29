@@ -1,7 +1,7 @@
 const HTMLWebpackPlugin = require('./plugins/html-webpack-plugin')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['./src/index.js', './src/other.js'],
   output: {
     fileName: '[name].[hash].js'
   },

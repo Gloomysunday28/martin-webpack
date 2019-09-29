@@ -12,12 +12,12 @@ HTMLWebpackPlugin.prototype = {
   init(modules, config) {
     this.getInitOption(this.option, config.output)
     let readFileString = fs.readFileSync(this.template, {encoding: 'utf8'}).toString()
-    const {
-      parseFileName
-    } = modules
-    
-    readFileString = readFileString.split('</body>').join(`   <script src="./${path.join(parseFileName)}"></script>
+
+    const scripts = Object.values(modules).map(v => v.parseFileName)
+
+    readFileString = readFileString.split('</body>').join(`   ${scripts.map(parseFileName => (`<script src="./${path.join(parseFileName)}"></script>`)).join('\n   ')}
 </body>`)
+
     fs.writeFileSync(this.targetHTML, readFileString, 'utf-8')
   },
   getInitOption(option, output = {}) {
