@@ -1,20 +1,13 @@
-const fs = require('fs')
-const path = require('path')
-const colors = require('colors')
 const { absoltePath } = require('./path')
 const dealLoader = require('./loaders')
-const { isFileExist, getExt, dealFileName, dealPath, warn } = require('./util')
-const {
-  template,
-} = require('./template')
+const { isFileExist, getExt, warn } = require('./util')
 
 const modules = {}
 const config = {}
-let oldDate = 0
 
 const parseModule = {
   modules,
-  parseModule(option, isIndex, date) {
+  parseModule(option, isIndex) {
     const {
       entry: entrys,
       context = isIndex ? process.cwd() : '',
@@ -24,7 +17,7 @@ const parseModule = {
           loader: 'babel-loader'
         }]
       },
-      resolveLoaders = 'node_modules'
+      resolveLoaders
     } = option
 
     let entry = entrys
@@ -38,18 +31,20 @@ const parseModule = {
     }
 
     if (isIndex) {
-      modules[getExt(entry)] = {}
+      modules[getExt(entry)] = {
+        startTime: +new Date(),
+      }
       if (isIndex) {
         Object.assign(config, {...option, ...{
           module: mModule,
-          resolveLoaders
+          resolveLoaders: resolveLoaders ? ['node_modules'].concat([...[resolveLoaders]]) : ['node_modules']
         }})
       }
     }
 
     const ENTRY_PATH = absoltePath(context, getExt(entry))
 
-    if (!isFileExist(ENTRY_PATH)) return warn(`${ENTRY_PATH} is no Exist`)
+    if (!isFileExist(ENTRY_PATH)) return void warn(`${ENTRY_PATH} is no Exist`)
 
     // console.log(entry);
     modules[getExt(config.entry)][entry] = {
@@ -61,14 +56,14 @@ const parseModule = {
       ...isIndex && {isIndex}
     }
 
-    date && (oldDate = date)
-    
     if (!dealLoader(mModule, config, modules, {
       isIndex,
       ENTRY_PATH,
       parseModule,
       entry
     })) return void 0
+
+    return 'Build Complete'
   },
 }
 

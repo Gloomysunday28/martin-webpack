@@ -8,6 +8,8 @@ module.exports = function(mModule, config, modules, {
   parseModule,
   entry
 }) {
+  let loaderPath
+
   if (mModule.rules && Array.isArray(mModule.rules)) {
     for (let rule of mModule.rules) {
       if (!rule.test) {
@@ -15,25 +17,29 @@ module.exports = function(mModule, config, modules, {
         return
       }
       if (rule.test.exec(getExt(entry))) {
-        const loaderPath = getExt(path.join(process.cwd(), config.resolveLoaders, rule.loader))
-        if (!fs.existsSync(loaderPath)) return void warn(`${loaderPath} is not exist!`)
-        const loader = require(loaderPath)
-        // loader配置集成
-        const loaderConfig = {
-          isIndex,
-          ENTRY_PATH,
-          parseModule,
-          entryModule: modules[getExt(config.entry)][entry],
-          loaderEntry: getExt(entry),
-          preTransformEntry: entry,
-          modules
+        for (let resolve of (config.resolveLoaders || [])) {
+          loaderPath = getExt(path.join(process.cwd(), resolve, rule.loader))
+          if (fs.existsSync(loaderPath)) {
+            const loader = require(loaderPath)
+            // loader配置集成
+            const loaderConfig = {
+              isIndex,
+              ENTRY_PATH,
+              parseModule,
+              entryModule: modules[getExt(config.entry)][entry],
+              loaderEntry: getExt(entry),
+              preTransformEntry: entry,
+              modules
+            }
+    
+            if (!typeof loader === 'function') return void warn(`${loaderPath} export is not a function`)
+            loader(loaderConfig)
+            return true
+          }
         }
-
-        if (!typeof loader === 'function') return void warn(`${loaderPath} export is not a function`)
-        loader(loaderConfig)
       }
     }
   }
 
-  return true
+  return void warn(`${loaderPath} is not exist!`)
 }

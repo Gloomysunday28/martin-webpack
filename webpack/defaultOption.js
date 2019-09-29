@@ -1,7 +1,11 @@
 const HTMLWebpackPlugin = require('./plugins/html-webpack-plugin')
+const ShowBuildTime = require('./webpackPlugins/showBuildTime')
 
 module.exports = {
-  entry: ['./src/index.js', './src/other.js'],
+  entry: {
+    app: './src/index.js', 
+    other: './src/other.js'
+  },
   output: {
     fileName: '[name].[hash].js'
   },
@@ -13,6 +17,7 @@ module.exports = {
     }]
   },
   plugins: [
-    new HTMLWebpackPlugin()
+    new HTMLWebpackPlugin(),
+    // new ShowBuildTime()
   ]
 }

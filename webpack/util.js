@@ -61,7 +61,7 @@ module.exports = {
   dealPath(filePath, cb) {
     rimraf(filePath, (err) => {
       if (!err) {
-        console.log(colors.green(`${filePath} is clear`))
+        console.log(colors.green.bold(`${filePath} is clear`))
         fs.mkdir(filePath, {
           recursive: false
         }, () => {
@@ -71,6 +71,9 @@ module.exports = {
     })
   },
   warn(msg) {
-    console.log(colors.red(`[Mwebpack Warn]: ${msg}`))
+    console.log(colors.red.bold(new Error(`[Mwebpack Warn]: ${msg}`)))
+  },
+  success(msg) {
+    console.log(colors.green.bold(msg))
   }
 }

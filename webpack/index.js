@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const date = +new Date()
+const path = require('path')
 const fs = require('fs')
 const commander = require('commander')
 const defaultOption = require('./defaultOption')
 const { parseModule, modules } = require('./parseModule')
 const { absoltePath } = require('./path')
-
+const install = require('./install')(MWebpack)
 const generateCode = require('./generateCode')
 
 commander
@@ -21,28 +21,58 @@ const {
 
 let option = defaultOption
 
-if (fs.existsSync(absoltePath(process.cwd(), config))) {
-  option = require(absoltePath(process.cwd(), config))
+function MWebpack(config) {
+  this.config = config
+  this.startDate = +new Date()
+  this.init()
 }
 
-const {
-  entry
-} = option
+MWebpack.prototype = {
+  constructor: MWebpack,
+  install,
+  init() {
+    if (fs.existsSync(absoltePath(process.cwd(), config))) {
+      option = require(absoltePath(process.cwd(), config))
+    }
+    
+    const {
+      entry
+    } = option
+    
+    if (Array.isArray(entry)) {
+      this.finalBoolean = entry.map(e => {
+        parseModule({
+          ...option,
+          entry: e
+        }, true)
+      })
+    } else if (Object.prototype.toString.call(entry) === '[object Object]') {
+      this.finalBoolean = Object.values(entry).map(e => parseModule({
+        ...option,
+        entry: e
+      }, true))
+    } else {
+      this.finalBoolean = [parseModule(option, true)]
+    }
 
-if (Array.isArray(entry)) {
-  entry.forEach(e => {
-    parseModule({
-      ...option,
-      entry: e
-    }, true, date)
-  })
-} else if (Object.prototype.toString.call(entry) === '[object Object]') {
-  Object.values(entry).forEach(e => parseModule({
-    ...option,
-    entry: e
-  }, true, date))
-} else {
-  parseModule(option, true, date)
+    this.generateCode()
+    this.installPlugins()
+  },
+  generateCode() {
+    if (this.finalBoolean.every(Boolean)) {
+      generateCode(modules, option, this.startDate)
+    }
+  },
+  installPlugins(context = './webpack/webpackPlugins') {
+    fs.readdir(path.resolve(context), 'utf-8', (err, files) => {
+      files.forEach(file => {
+        const plugin = require(path.resolve(context, file))
+        install(plugin.install)
+      })
+    })
+  }
 }
 
-generateCode(modules, option)
+const webpack = new MWebpack(option)
+
+module.exports = webpack
