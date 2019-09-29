@@ -12,7 +12,7 @@ const { dealPath, dealFileName, success } = require('./util')
  * @param {*} ENTRY_PATH 
  */
 
- function generateCode(modules, option, oldDate) {
+ function generateCode(modules, option, oldDate, MWebpack) {
   const {
     output = {}
   } = option
@@ -27,8 +27,8 @@ const { dealPath, dealFileName, success } = require('./util')
         fs.writeFileSync(absoltePath(filePath, filename), template(mode.content, modePath), 'utf-8')
       })
     ).then(() => {
-      dealPlugins(modules, option)
-      
+      dealPlugins(modules, option, MWebpack)
+
       const newDate = +new Date()
       success(`Build All Modules Complete in ${(newDate - oldDate) / 1000}s`)
     })

@@ -18,7 +18,7 @@ module.exports = function(mModule, config, modules, {
       }
       if (rule.test.exec(getExt(entry))) {
         for (let resolve of (config.resolveLoaders || [])) {
-          loaderPath = getExt(path.join(process.cwd(), resolve, rule.loader))
+          loaderPath = getExt(path.join(config.resolveLoaders.length > 1 ? process.cwd() : '', config.resolveLoaders.length > 1 ? resolve : __dirname , rule.loader))
           if (fs.existsSync(loaderPath)) {
             const loader = require(loaderPath)
             // loader配置集成

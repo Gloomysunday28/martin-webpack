@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const path = require('path')
 const fs = require('fs')
 const commander = require('commander')
 const defaultOption = require('./defaultOption')
@@ -60,13 +59,13 @@ MWebpack.prototype = {
   },
   generateCode() {
     if (this.finalBoolean.every(Boolean)) {
-      generateCode(modules, option, this.startDate)
+      generateCode(modules, option, this.startDate, MWebpack)
     }
   },
-  installPlugins(context = './webpack/webpackPlugins') {
-    fs.readdir(path.resolve(context), 'utf-8', (err, files) => {
+  installPlugins(context = './webpackPlugins') {
+    fs.readdir(absoltePath(__dirname, context), 'utf-8', (err, files) => {
       files.forEach(file => {
-        const plugin = require(path.resolve(context, file))
+        const plugin = require(absoltePath(__dirname, context, file))
         install(plugin.install)
       })
     })
