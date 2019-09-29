@@ -10,6 +10,7 @@ module.exports = {
     return fs.existsSync(path)
   },
   getExt(file) {
+    // console.log(file);
     return file + (path.extname(file) ? '' : '.js')
   },
   dealFileName(config, filename = '', entryModule) {
