@@ -19,7 +19,12 @@ const parseModule = {
     const {
       entry: entrys,
       context = isIndex ? process.cwd() : '',
-      module: mModule = {},
+      module: mModule = {
+        rules: [{
+          test: /\.js$/,
+          loader: 'babel-loader'
+        }]
+      },
       resolveLoaders = 'node_modules'
     } = option
 
@@ -36,7 +41,10 @@ const parseModule = {
     if (isIndex) {
       modules[getExt(entry)] = {}
       if (isIndex) {
-        Object.assign(config, {...option, ...{resolveLoaders}})
+        Object.assign(config, {...option, ...{
+          module: mModule,
+          resolveLoaders
+        }})
       }
     }
 

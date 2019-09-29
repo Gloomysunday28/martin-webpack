@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { getExt } = require('../util')
+const { getExt, warn } = require('../util')
 
 module.exports = function(mModule, config, modules, {
   isIndex,
@@ -16,7 +16,7 @@ module.exports = function(mModule, config, modules, {
       }
       if (rule.test.exec(getExt(entry))) {
         const loaderPath = getExt(path.join(process.cwd(), config.resolveLoaders, rule.loader))
-        if (!fs.existsSync(loaderPath)) return warn(`${loaderPath} is not exist!`)
+        if (!fs.existsSync(loaderPath)) return void warn(`${loaderPath} is not exist!`)
         const loader = require(loaderPath)
         // loader配置集成
         const loaderConfig = {
@@ -29,7 +29,7 @@ module.exports = function(mModule, config, modules, {
           modules
         }
 
-        if (!typeof loader === 'function') return warn(`${loaderPath} export is not a function`)
+        if (!typeof loader === 'function') return void warn(`${loaderPath} export is not a function`)
         loader(loaderConfig)
       }
     }
