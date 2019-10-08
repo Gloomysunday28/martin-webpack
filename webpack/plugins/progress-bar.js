@@ -1,14 +1,12 @@
 const { success } = require('./util')
-const ProgressBar = require('progress');
+const ProgressBars = require('progress');
 
-function ProgressBar(option = {}) {
-  this.option = option
-}
-
-ProgressBar.prototype = {
-  constructor: ProgressBar,
+class ProgressBar {
+  constructor(option) {
+    this.option = option
+  }
   init(modules, config) {
-    const bar = new ProgressBar(':bar :current/:total', { total: 10 });
+    const bar = new ProgressBars(':bar :current/:total', { total: 10 });
     var timer = setInterval(function () {
       bar.tick();
       if (bar.complete) {

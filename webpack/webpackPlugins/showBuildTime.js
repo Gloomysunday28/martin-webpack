@@ -1,11 +1,9 @@
 const { success } = require('../util')
 
-function ShowBuildTime() {
-  this.init()
-}
-
-ShowBuildTime.prototype = {
-  constructor: 'ShowBuildTime',
+class ShowBuildTime {
+  constructor(option) {
+    this.option = option
+  }
   init(modules) {
     for (let mod in modules) {
       const mode = modules[mod]
@@ -13,7 +11,7 @@ ShowBuildTime.prototype = {
       mode.finishTime = +new Date()
       success(`Build module [${mod}] in ${(mode.finishTime - mode.startTime) / 1000}s`)
     }
-  },
+  }
 }
 
 ShowBuildTime.install = {

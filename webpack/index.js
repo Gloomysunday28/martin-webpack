@@ -59,7 +59,7 @@ MWebpack.prototype = {
   },
   generateCode() {
     if (this.finalBoolean.every(Boolean)) {
-      generateCode(modules, option, this.startDate, MWebpack)
+      generateCode(modules, option, this.startDate, this)
     }
   },
   installPlugins(context = './webpackPlugins') {

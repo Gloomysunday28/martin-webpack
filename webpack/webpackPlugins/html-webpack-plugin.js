@@ -3,12 +3,10 @@ const fs = require('fs')
 const colors = require('colors')
 const { absoltePath } = require('../path')
 
-function HTMLWebpackPlugin(option = {}) {
-  this.option = option
-}
-
-HTMLWebpackPlugin.prototype = {
-  constructor: HTMLWebpackPlugin,
+class HTMLWebpackPlugin {
+  constructor(option = {}) {
+    this.option = option
+  }
   init(modules, config) {
     this.getInitOption(this.option, config.output)
     let readFileString = fs.readFileSync(this.template, {encoding: 'utf8'}).toString()
@@ -19,7 +17,7 @@ HTMLWebpackPlugin.prototype = {
 </body>`)
 
     fs.writeFileSync(this.targetHTML, readFileString, 'utf-8')
-  },
+  }
   getInitOption(option, output = {}) {
     this.template = option.template ? absoltePath(option.template) : absoltePath(process.cwd(), './index.html')
     this.targetHTML = option.file ? absoltePath(option.file) : absoltePath(`${output.path || process.cwd() + '/dist'}`, `${this.option.file || 'index.html'}`)
