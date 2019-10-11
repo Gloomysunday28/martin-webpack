@@ -26,7 +26,7 @@ module.exports = function(mModule, config, modules, {
               isIndex,
               ENTRY_PATH,
               parseModule,
-              entryModule: modules[getExt(config.entry)][entry],
+              entryModule: modules[getExt(config.entry)].modules[entry],
               loaderEntry: getExt(entry),
               preTransformEntry: entry,
               modules

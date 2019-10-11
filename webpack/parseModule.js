@@ -33,6 +33,7 @@ const parseModule = {
     if (isIndex) {
       modules[getExt(entry)] = {
         startTime: +new Date(),
+        modules: {}
       }
       if (isIndex) {
         Object.assign(config, {...option, ...{
@@ -46,8 +47,7 @@ const parseModule = {
 
     if (!isFileExist(ENTRY_PATH)) return void warn(`${ENTRY_PATH} is no Exist`)
 
-    // console.log(entry);
-    modules[getExt(config.entry)][entry] = {
+    modules[getExt(config.entry)].modules[entry] = {
       path: getExt(entry),  
       originPath: entry,
       absoltePath: ENTRY_PATH,

@@ -58,6 +58,7 @@ MWebpack.prototype = {
     this.generateCode()
   },
   generateCode() {
+    // return console.log(modules);
     if (this.finalBoolean.every(Boolean)) {
       generateCode(modules, option, this.startDate, this)
     }

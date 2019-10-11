@@ -115,7 +115,7 @@ function assembleContent(modules, entryModule, content, astTree, ENTRY_PATH, par
   entryModule.transformTemplate = transformTemplate
 
   if (entryModule.isIndex) {
-    generateCode(modules[entryModule.path], entryModule, transformTemplate, )
+    generateCode(modules[entryModule.path], entryModule, transformTemplate)
   }
 }
 
@@ -127,14 +127,11 @@ function assembleContent(modules, entryModule, content, astTree, ENTRY_PATH, par
  * @param {*} transformTemplate 
  */
 function generateCode(modules, entryModule, transformTemplate) {
-  // console.log('entryModule', modules);
-  const content = Object.values(modules).reduce((prev, next) => {
-    // console.log('next', next);
+  const content = Object.values(modules.modules).reduce((prev, next) => {
     return `${transformTemplate(JSON.stringify(next.content || '').replace(/^["|'](.*)["|']$/g, '$1'), next.originPath)},` + prev
   }, '')
-
-  modules.content = content
   // console.log(content);
+  modules.content = content
 }
 
 module.exports = traverseCode

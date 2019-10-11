@@ -93,13 +93,5 @@
         /***/ (function(module, exports) {
         
         eval("console.log('other')//# sourceURL=webpack:///./src/other.js?");/***/ })/******/ 
-    ,
-        /***/ 'undefined':
-        /*!******************!*          !*** undefined ***!
-          ******************/
-        /*! no static exports found */
-        /***/ (function(module, exports) {
-        
-        eval("//# sourceURL=webpack:///undefined?");/***/ })/******/ 
     ,});
     
