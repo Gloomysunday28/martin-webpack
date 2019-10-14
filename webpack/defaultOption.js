@@ -8,7 +8,7 @@ module.exports = {
     other: './src/other.js'
   },
   output: {
-    path: path.resolve(process.cwd(), './dist'),
+    path: path.resolve(process.cwd(), './dist/js'),
     fileName: '[name].[hash].js'
   },
   resolveLoaders: './webpack/loaders',
