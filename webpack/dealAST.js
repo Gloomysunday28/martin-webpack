@@ -58,13 +58,14 @@ module.exports = {
   dealWithImport(modules, content, parseModules, context) {
     modules.forEach(importTree => {
       const {
+        beforeVar,
         path: entryPath,
         importContent,
       } = importTree
-      const reg = /import(.*)?("|')?/gm
+      const reg = new RegExp(`import\\s*${beforeVar}(.*)?("|')?`, 'g')
+      
       content = content.replace(reg, importContent)
 
-      // console.log('entryPath', entryPath);
       parseModules({
         entry: entryPath,
         context: path.dirname(context),

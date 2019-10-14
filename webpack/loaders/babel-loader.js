@@ -88,6 +88,9 @@ function assembleContent(modules, entryModule, content, astTree, ENTRY_PATH, par
           value: ast.declaration.extra ? ast.declaration.extra.raw : undefined
         }
 
+        if (entryModule.path === './src/index.js') {
+          console.log(ast);
+        }
         exportTree.name = getExportVariable(ast, exportTree, entryModule.modules, content),
         entryModule.exports.push({default: exportTree})
 
@@ -106,8 +109,7 @@ function assembleContent(modules, entryModule, content, astTree, ENTRY_PATH, par
         break
     }
   })
-  // console.log('ENTRY_PATH', ENTRY_PATH);
-  // console.log(content);
+
   content = dealWithImport(entryModule.modules, content, parseModule.parseModule, entryModule.absoltePath)
   content = dealWithExport(entryModule.exports, content)
 
