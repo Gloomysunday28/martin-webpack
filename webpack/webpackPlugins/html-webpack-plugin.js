@@ -20,7 +20,7 @@ class HTMLWebpackPlugin {
   }
   getInitOption(option, output = {}) {
     this.template = option.template ? absoltePath(option.template) : absoltePath(process.cwd(), './index.html')
-    this.targetHTML = option.file ? absoltePath(option.file) : absoltePath(`${output.path || process.cwd() + '/dist'}`, `${this.option.file || 'index.html'}`)
+    this.targetHTML = absoltePath(`${process.cwd() + '/dist'}`, `${this.option.file || 'index.html'}`)
     if (!fs.existsSync(this.template)) return console.log(colors.red(`${this.template} is no Exist`))
 
     this.templateHTML = fs.readFileSync(this.template, 'utf-8')

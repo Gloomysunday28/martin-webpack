@@ -1,3 +1,4 @@
+const path = require('path')
 const HTMLWebpackPlugin = require('./webpackPlugins/html-webpack-plugin')
 const ShowBuildTime = require('./webpackPlugins/showBuildTime')
 
@@ -7,6 +8,7 @@ module.exports = {
     other: './src/other.js'
   },
   output: {
+    path: path.resolve(process.cwd(), './dist'),
     fileName: '[name].[hash].js'
   },
   resolveLoaders: './webpack/loaders',

@@ -17,7 +17,7 @@ const { dealPath, dealFileName, success } = require('./util')
     output = {}
   } = option
   
-  const filePath = output.path || path.join(process.cwd(), './dist')
+  const filePath = output.path || path.join(process.cwd(), './dist/js')
   
   dealPath(filePath, () => {
     Promise.resolve(
