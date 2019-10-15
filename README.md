@@ -24,8 +24,10 @@
 属性 | 类型 | 说明
 :---:| :---: | :---:
 entry | <code>String</code><code>Array</code><code>Object</code> | 打包文件的入口
-output | {path: path, fileName: fileName} | 打包文件的出口, path为出口的路径, fileName为输出文件名称, 支持[name].[hash].js, name为main或者是对象的key, hash是文件内容的哈希值
-plugins | Array | 插件
+output | object | 打包文件的出口, path为出口的路径, fileName为输出文件名称, 支持[name].[hash].js, name为main或者是对象的key, hash是文件内容的哈希值
+resolveLoaders | <code>String</code><code>Array</code> | 处理loader的路径
+module | object | 文件处理loader的配置, {rules: [{ test: /\.js$/, loader: 'babel-loader'}]
+plugins | Array | 插件集合
 
 ## 自制插件
 ```
