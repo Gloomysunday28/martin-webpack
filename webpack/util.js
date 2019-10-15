@@ -62,11 +62,7 @@ module.exports = {
     rimraf(filePath, (err) => {
       if (!err) {
         console.log(colors.green.bold(`${filePath} is clear`))
-        fs.mkdir(filePath, {
-          recursive: false
-        }, () => {
-          cb && cb()
-        })
+        cb && cb()
       }
     })
   },

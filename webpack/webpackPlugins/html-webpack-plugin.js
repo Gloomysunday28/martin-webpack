@@ -15,7 +15,7 @@ class HTMLWebpackPlugin {
 
     const baseDirName = path.dirname(config.output.path) === process.cwd() ? path.join('./') : path.join(path.basename(config.output.path))
 
-    readFileString = readFileString.split('</body>').join(`   ${scripts.map(parseFileName => (`<script src="${path.join(baseDirName, path.join(parseFileName))}"></script>`)).join('\n   ')}
+    readFileString = readFileString.split('</body>').join(`  ${scripts.map(parseFileName => (`<script src="${path.join(baseDirName, path.join(parseFileName))}"></script>`)).join('\n  ')}
 </body>`)
 
     fs.writeFileSync(this.targetHTML, readFileString, 'utf-8')

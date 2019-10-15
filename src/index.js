@@ -1,6 +1,6 @@
-import MUnderscore from './munderscore'
+import test2 from './test2'
 import test from './test'
 
-console.log(MUnderscore);
+console.log(test2);
 console.log(test);
 console.log(321)

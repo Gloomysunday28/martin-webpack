@@ -11,11 +11,13 @@ const generateCode = require('./generateCode')
 commander
   .version('0.0.1')
   .option('-c, --config [n]', 'output your config option')
+  .option('-m, --mode [n]', 'build Type')
 
 const program = commander.parse(process.argv)
 
 const {
-  config = 'martin-webpack.conf.js'
+  config = 'martin-webpack.conf.js',
+  mode = 'production'
 } = program
 
 let option = defaultOption
@@ -55,12 +57,16 @@ MWebpack.prototype = {
     }
 
     this.installPlugins()
-    this.generateCode()
+
+    if (mode === 'production') {
+      this.generateCode()
+    }
   },
-  generateCode() {
-    // return console.log(modules);
+  generateCode(cb) {
     if (this.finalBoolean.every(Boolean)) {
-      generateCode(modules, option, this.startDate, this)
+      generateCode(modules, option, this.startDate, this, () => {
+        cb && cb()
+      })
     }
   },
   installPlugins(context = './webpackPlugins') {
@@ -76,3 +82,4 @@ MWebpack.prototype = {
 const webpack = new MWebpack(option)
 
 module.exports = webpack
+exports.program = program
