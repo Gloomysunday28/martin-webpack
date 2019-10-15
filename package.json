@@ -1,6 +1,6 @@
 {
-  "name": "@kvinc/acorn-webpack",
-  "version": "0.0.19",
+  "name": "@kvinc/martin-webpack",
+  "version": "0.0.1",
   "description": "模仿webpack制定的打包工具",
   "main": "webpack/index.js",
   "scripts": {
@@ -12,7 +12,10 @@
   "bin": {
     "mwebpack": "lib/index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "webpack",
+    "martin"
+  ],
   "author": "cjd <459953103@qq.com> (http://github.com/GloomySunday28)",
   "license": "MIT",
   "dependencies": {

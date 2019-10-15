@@ -12,7 +12,7 @@
 
 ## 安装
 ```
-  npm i @kvinc/acorn-webpack -g
+  npm i @kvinc/martin-webpack -g
 ```
 
 ## 命令行
