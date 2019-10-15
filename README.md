@@ -36,6 +36,7 @@ plugins | Array | 插件
       参数:
         modules: 文件解析出来的一些信息
         config: mwebpack配置文件
+        mwebpack: 全局打包对象
 ```
 
 ## 零配置插件
