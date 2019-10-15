@@ -2,15 +2,15 @@ const fs = require('fs')
 const path = require('path')
 const { getExt, warn } = require('../util')
 
-const basePath = path.dirname(path.dirname(require.main.filename))
-
 module.exports = function(mModule, config, modules, {
   isIndex,
   ENTRY_PATH,
   parseModule,
-  entry
+  entry,
+  __dirname
 }) {
   let loaderPath
+  const basePath = path.dirname(__dirname)
   if (mModule.rules && Array.isArray(mModule.rules)) {
     for (let rule of mModule.rules) {
       if (!rule.test) {

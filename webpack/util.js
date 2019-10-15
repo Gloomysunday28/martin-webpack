@@ -59,7 +59,7 @@ module.exports = {
     return entryModule.parseFileName
   },
   dealPath(filePath, cb) {
-    rimraf(filePath, (err) => {
+    rimraf(filePath, {glob: true}, (err) => {
       if (!err) {
         console.log(colors.green.bold(`${filePath} is clear`))
         cb && cb()

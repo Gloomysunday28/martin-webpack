@@ -11,13 +11,11 @@ const generateCode = require('./generateCode')
 commander
   .version('0.0.1')
   .option('-c, --config [n]', 'output your config option')
-  .option('-m, --mode [n]', 'build Type')
 
 const program = commander.parse(process.argv)
 
 const {
   config = 'martin-webpack.conf.js',
-  mode = 'production'
 } = program
 
 let option = defaultOption
@@ -25,13 +23,12 @@ let option = defaultOption
 function MWebpack(config) {
   this.config = config
   this.startDate = +new Date()
-  this.init()
 }
 
 MWebpack.prototype = {
   constructor: MWebpack,
   install,
-  init() {
+  init(mode, cb) {
     if (fs.existsSync(absoltePath(process.cwd(), config))) {
       option = require(absoltePath(process.cwd(), config))
     }
@@ -57,9 +54,8 @@ MWebpack.prototype = {
     }
 
     this.installPlugins()
-
     if (mode === 'production') {
-      this.generateCode()
+      this.generateCode(cb)
     }
   },
   generateCode(cb) {

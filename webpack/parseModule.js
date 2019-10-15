@@ -60,7 +60,8 @@ const parseModule = {
       isIndex,
       ENTRY_PATH,
       parseModule,
-      entry
+      entry,
+      __dirname
     })) return void 0
 
     return 'Build Complete'
