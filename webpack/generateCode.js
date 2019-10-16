@@ -4,6 +4,9 @@ const dealPlugins = require('./plugins')
 const { absoltePath } = require('./path')
 const { template } = require('./template')
 const { dealPath, dealFileName, success } = require('./util')
+const {
+  stop
+} = require('./loading/mwebpack-loading.js')
 
 /**
  * @description 初始打包时进行目录建设，mkdir无法建立多个未出现的层级的目录
@@ -50,7 +53,7 @@ const dealPrinfFile = () => {
       })
     ).then(() => {
       dealPlugins(modules, option, MWebpack)
-     
+      stop()
       const newDate = +new Date()
       success(`Build All Modules Complete in ${(newDate - oldDate) / 1000}s`)
       cb && cb()

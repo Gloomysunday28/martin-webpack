@@ -7,15 +7,20 @@ const { parseModule, modules } = require('./parseModule')
 const { absoltePath } = require('./path')
 const install = require('./install')(MWebpack)
 const generateCode = require('./generateCode')
+const {
+  start
+} = require('./loading/mwebpack-loading.js')
 
 commander
   .version('0.0.1')
   .option('-c, --config [n]', 'output your config option')
+  .option('-l, --lt [n]', 'output your config option')
 
 const program = commander.parse(process.argv)
 
 const {
   config = 'martin-webpack.conf.js',
+  lt = 'bouncingBall'
 } = program
 
 let option = defaultOption
@@ -29,6 +34,8 @@ MWebpack.prototype = {
   constructor: MWebpack,
   install,
   init(mode, cb) {
+    start(lt)
+    
     if (fs.existsSync(absoltePath(process.cwd(), config))) {
       option = require(absoltePath(process.cwd(), config))
     }

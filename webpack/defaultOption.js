@@ -20,6 +20,6 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin(),
-    new ShowBuildTime()
+    new ShowBuildTime(),
   ]
 }
